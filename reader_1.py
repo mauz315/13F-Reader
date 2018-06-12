@@ -30,7 +30,7 @@ browser.get("https://whalewisdom.com/")
 
 element1 = browser.find_element_by_id("ac_filer_stock_name")
 
-element1.send_keys("persh")
+element1.send_keys("tiger management")
 time.sleep(3)
 element1.send_keys(Keys.DOWN, Keys.RETURN)
 time.sleep(3)
@@ -44,9 +44,9 @@ topHoldW = holdings.find_element_by_css_selector("span[class='precents']").text
 summary = browser.find_element_by_css_selector("div[class='filerinfo activity']")
 
 # Total AUM, Rent and Top 10%
-AUM = float(before(summary.text[14:25], ' B'))
+AUM = float(before(summary.text[14:25], ' '))
 print(AUM)
-PrevAUM = float(before(after(summary.text, 'Prior Market Value $'), ' Billion'))
+PrevAUM = float(before(after(summary.text, 'Prior Market Value $'), ' '))
 print(PrevAUM)
 rentQ = AUM/PrevAUM - 1
 print(rentQ)
@@ -59,11 +59,13 @@ currentHoldings = browser.find_element_by_id("current_holdings_table")
 
 totalFiled = browser.find_element_by_css_selector("span[class='pagination-info']").text
 rows = int(before(totalFiled[18:], ' rows'))
+print(rows)
 
-a = currentHoldings.find_element_by_xpath("//th[@data-field='current_ranking']/div[1]")
-a.click()
-a.click()
-# currentHoldings = browser.find_element_by_id("current_holdings_table")
+if rows >= 25:
+    a = currentHoldings.find_element_by_xpath("//th[@data-field='current_ranking']/div[1]")
+    a.click()
+    a.click()
+    currentHoldings = browser.find_element_by_id("current_holdings_table")
 
 totalPos = rows - currentHoldings.text.count("Sold All")
 print(totalPos)
